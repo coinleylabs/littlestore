@@ -9,7 +9,7 @@ function Navbar() {
   const cartItemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   return (
-    <nav className="bg-white shadow-md">
+    <nav className="bg-white shadow-md px-9">
       <div className="container-custom py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}

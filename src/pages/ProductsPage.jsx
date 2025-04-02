@@ -125,7 +125,7 @@ function ProductsPage() {
   });
 
   return (
-    <div className="container-custom py-8">
+    <div className="container-custom py-8 px-9">
       <h1 className="text-3xl font-bold mb-8 text-center">Our Products</h1>
       
       {/* Search and Filter */}

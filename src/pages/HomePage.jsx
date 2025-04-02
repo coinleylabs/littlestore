@@ -71,7 +71,7 @@ function HomePage() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative h-96 bg-green-100">
+      <section className="relative h-96 bg-green-100 px-9">
         <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-primary-dark/80"></div>
         <div className="container-custom relative h-full flex flex-col justify-center">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
