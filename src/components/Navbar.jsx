@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { cartItems } = useCart();
+
+  const {user}  = useAuth();
   
   const cartItemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
@@ -25,6 +28,9 @@ function Navbar() {
             <Link to="/products" className="text-gray-700 hover:text-primary font-medium">
               Products
             </Link>
+            <Link to="/login" className="text-white hover:text-primary font-medium bg-green-500 px-9">
+              Login
+            </Link>
           </div>
 
           {/* Cart Icon */}
@@ -39,6 +45,8 @@ function Navbar() {
                 </span>
               )}
             </Link>
+ 
+            <div>{user?.fname}</div>
 
             {/* Mobile menu button */}
             <button 

@@ -5,10 +5,10 @@ function CartPage() {
   const { cartItems, removeFromCart, updateQuantity, subtotal } = useCart();
 
   // Calculate shipping cost (free shipping over $50)
-  const shippingCost = subtotal > 50 ? 0 : 5.99;
+  const shippingCost = subtotal > 50 ? 0 : 0.02;
   
   // Calculate tax (assume 8% tax rate)
-  const taxRate = 0.08;
+  const taxRate = 0.002;
   const tax = subtotal * taxRate;
   
   // Calculate total
@@ -42,7 +42,7 @@ function CartPage() {
                       {/* Product Image */}
                       <div className="flex-shrink-0 w-24 h-24 bg-gray-100 rounded-md overflow-hidden">
                         <img 
-                          src={item.image}
+                          src={item.imageUrl}
                           alt={item.name}
                           className="w-full h-full object-cover object-center"
                         />
@@ -55,7 +55,7 @@ function CartPage() {
                             {item.name}
                           </Link>
                         </h3>
-                        <p className="mt-1 text-sm text-gray-500">${item.price.toFixed(2)} / {item.unit}</p>
+                        <p className="mt-1 text-sm text-gray-500">${Number (item?.price)?.toFixed(2)} / {item.unit}</p>
                       </div>
                       
                       {/* Quantity Controls */}
@@ -129,7 +129,7 @@ function CartPage() {
                 
                 <div className="flex justify-between">
                   <p className="text-gray-600">Tax (8%)</p>
-                  <p className="text-gray-900 font-medium">${tax.toFixed(2)}</p>
+                  <p className="text-gray-900 font-medium">${tax.toFixed(3)}</p>
                 </div>
                 
                 <div className="border-t pt-4 flex justify-between">

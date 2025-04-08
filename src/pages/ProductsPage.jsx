@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import ProductCard from '../components/ProductCard';
 import axios from 'axios';
+import { URL } from '../url';
 
 function ProductsPage() {
   const [products, setProducts] = useState([]);
@@ -9,10 +10,10 @@ function ProductsPage() {
   const [filter, setFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
 
-  useEffect(() => {
+
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/products');
+        const response = await axios.get(`${URL}/api/products`);
         setProducts(response.data);
         setLoading(false);
       } catch (err) {
@@ -20,92 +21,13 @@ function ProductsPage() {
         setError('Failed to load products. Please try again later.');
         setLoading(false);
         
-        // Fallback to sample data for demo purposes
-        setProducts([
-          {
-            id: 1,
-            name: 'Organic Apples',
-            description: 'Fresh organic apples from local farms.',
-            price: 2.99,
-            unit: 'lb',
-            category: 'fruits',
-            image: 'https://images.unsplash.com/photo-1567306226416-28f0efdc88ce',
-            featured: true
-          },
-          {
-            id: 2,
-            name: 'Fresh Spinach',
-            description: 'Nutrient-rich spinach, perfect for salads and cooking.',
-            price: 3.49,
-            unit: 'bunch',
-            category: 'vegetables',
-            image: 'https://images.unsplash.com/photo-1576045057995-568f588f82fb',
-            featured: true
-          },
-          {
-            id: 3,
-            name: 'Organic Strawberries',
-            description: 'Sweet and juicy organic strawberries.',
-            price: 4.99,
-            unit: 'pint',
-            category: 'fruits',
-            image: 'https://images.unsplash.com/photo-1464965911861-746a04b4bca6',
-            featured: true
-          },
-          {
-            id: 4,
-            name: 'Fresh Broccoli',
-            description: 'Crisp and nutritious broccoli florets.',
-            price: 2.79,
-            unit: 'head',
-            category: 'vegetables',
-            image: 'https://images.unsplash.com/photo-1459411552884-841db9b3cc2a',
-            featured: true
-          },
-          {
-            id: 5,
-            name: 'Ripe Bananas',
-            description: 'Sweet and ripe bananas, perfect for snacking.',
-            price: 1.99,
-            unit: 'lb',
-            category: 'fruits',
-            image: 'https://images.unsplash.com/photo-1543218024-57a70143c369',
-            featured: false
-          },
-          {
-            id: 6,
-            name: 'Fresh Carrots',
-            description: 'Crunchy carrots, great for cooking or snacking.',
-            price: 2.49,
-            unit: 'bunch',
-            category: 'vegetables',
-            image: 'https://images.unsplash.com/photo-1597362925123-77861d3fbac7',
-            featured: false
-          },
-          {
-            id: 7,
-            name: 'Red Bell Peppers',
-            description: 'Sweet and crunchy red bell peppers.',
-            price: 3.99,
-            unit: 'lb',
-            category: 'vegetables',
-            image: 'https://images.unsplash.com/photo-1563565375-f3fdfdbefa83',
-            featured: false
-          },
-          {
-            id: 8,
-            name: 'Avocados',
-            description: 'Creamy and nutritious avocados.',
-            price: 2.49,
-            unit: 'each',
-            category: 'fruits',
-            image: 'https://images.unsplash.com/photo-1523049673857-eb18f1d7b578',
-            featured: false
-          }
-        ]);
+    
       }
     };
 
+
+
+    useEffect(() => {
     fetchProducts();
   }, []);
 

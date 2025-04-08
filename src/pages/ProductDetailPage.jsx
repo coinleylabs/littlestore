@@ -2,67 +2,30 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import axios from 'axios';
+import { URL } from '../url';
 
 function ProductDetailPage() {
   const { id } = useParams();
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
 
-  useEffect(() => {
+
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/products/${id}`);
+        const response = await axios.get(`${URL}/api/products/${id}`);
         setProduct(response.data);
+        console.log("product", response.data)
         setLoading(false);
       } catch (err) {
         console.error('Error fetching product:', err);
         setError('Failed to load product details. Please try again later.');
         setLoading(false);
         
-        // Fallback to sample data for demo
-        const sampleProducts = [
-          {
-            id: 1,
-            name: 'Organic Apples',
-            description: 'Fresh organic apples from local farms. These apples are grown without pesticides or synthetic fertilizers, making them a healthy choice for you and your family. Rich in fiber and antioxidants, they\'re perfect for snacking, baking, or adding to salads.',
-            price: 2.99,
-            unit: 'lb',
-            category: 'fruits',
-            image: 'https://images.unsplash.com/photo-1567306226416-28f0efdc88ce',
-            featured: true,
-            nutrition: {
-              calories: 95,
-              fat: '0.3g',
-              carbs: '25g',
-              protein: '0.5g',
-              fiber: '4g'
-            },
-            origin: 'Local Farms, USA'
-          },
-          {
-            id: 2,
-            name: 'Fresh Spinach',
-            description: 'Nutrient-rich spinach, perfect for salads and cooking. Our spinach is carefully grown and harvested at peak freshness to ensure the best flavor and highest nutritional value. It\'s an excellent source of vitamins A, C, and K, as well as iron and folate.',
-            price: 3.49,
-            unit: 'bunch',
-            category: 'vegetables',
-            image: 'https://images.unsplash.com/photo-1576045057995-568f588f82fb',
-            featured: true,
-            nutrition: {
-              calories: 23,
-              fat: '0.4g',
-              carbs: '3.6g',
-              protein: '2.9g',
-              fiber: '2.2g'
-            },
-            origin: 'California, USA'
-          }
-        ];
-        
-        const found = sampleProducts.find(p => p.id === parseInt(id));
+      
+        const found = product?.find(p => p.id === parseInt(id));
         if (found) {
           setProduct(found);
         } else {
@@ -71,6 +34,8 @@ function ProductDetailPage() {
       }
     };
 
+
+    useEffect(() => {
     fetchProduct();
   }, [id]);
 
@@ -80,6 +45,21 @@ function ProductDetailPage() {
   };
 
   const handleAddToCart = () => {
+
+    console.log("Adding to cart:", product, quantity);
+  
+    if (!addToCart) {
+      console.error("addToCart function is undefined!");
+      return;
+    }
+  
+    if (!product || Object.keys(product).length === 0) {
+      console.error("No product found to add to cart");
+      return;
+    }
+  
+
+
     addToCart(product, quantity);
   };
 
@@ -105,7 +85,7 @@ function ProductDetailPage() {
   }
 
   return (
-    <div className="container-custom py-8">
+    <div className="container-custom py-8 px-9">
       <div className="mb-4">
         <Link to="/products" className="text-primary hover:underline flex items-center">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
@@ -120,7 +100,7 @@ function ProductDetailPage() {
           {/* Product Image */}
           <div className="aspect-w-4 aspect-h-3 md:aspect-w-3 md:aspect-h-4">
             <img 
-              src={product.image} 
+              src={product.imageUrl} 
               alt={product.name} 
               className="w-full h-full object-cover rounded-lg"
             />
@@ -131,7 +111,7 @@ function ProductDetailPage() {
             <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.name}</h1>
             
             <div className="flex items-center mb-4">
-              <span className="text-2xl font-bold text-gray-900">${product.price.toFixed(2)}</span>
+              <span className="text-2xl font-bold text-gray-900">${Number (product?.price)?.toFixed(2)}</span>
               <span className="text-gray-500 ml-2">/ {product.unit}</span>
             </div>
             
@@ -189,7 +169,7 @@ function ProductDetailPage() {
               
               <button 
                 onClick={handleAddToCart}
-                className="btn btn-primary flex-1"
+                className="btn bg-green-500 py-2 text-white flex-1"
               >
                 Add to Cart
               </button>
